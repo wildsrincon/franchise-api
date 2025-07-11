@@ -1,0 +1,33 @@
+spring:
+  # Configuración de MongoDB
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/franchise_db
+      auto-index-creation: true
+
+  # Nombre de la aplicación
+  application:
+    name: franchise-api
+
+# Puerto del servidor
+server:
+  port: 8080
+
+# Configuración de Actuator (monitoring)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Configuración de logs
+logging:
+  level:
+    com.franchise: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

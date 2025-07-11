@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      # MongoDB embebido para pruebas
+      port: 0
+
+logging:
+  level:
+    com.franchise: DEBUG
+    org.springframework.data.mongodb: DEBUG

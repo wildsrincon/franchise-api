@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/franchise_db
+
+logging:
+  level:
+    com.franchise: INFO
+    org.springframework.data.mongodb: INFO
