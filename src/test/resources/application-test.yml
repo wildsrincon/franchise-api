@@ -1,7 +1,6 @@
 spring:
   data:
     mongodb:
-      # Para pruebas, usar base de datos separada
       uri: mongodb://localhost:27017/franchise_test_db
       auto-index-creation: true
 
