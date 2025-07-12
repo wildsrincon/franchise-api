@@ -1,10 +1,15 @@
 spring:
   data:
     mongodb:
-      # MongoDB embebido para pruebas
-      port: 0
+      # Para pruebas, usar base de datos separada
+      uri: mongodb://localhost:27017/franchise_test_db
+      auto-index-creation: true
+
+  main:
+    banner-mode: off
 
 logging:
   level:
-    com.franchise: DEBUG
-    org.springframework.data.mongodb: DEBUG
+    com.franchise: INFO
+    org.springframework.data.mongodb: WARN
+    org.springframework: WARN
