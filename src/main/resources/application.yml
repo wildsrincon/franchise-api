@@ -1,29 +1,33 @@
-server:
-  port: 8080
-
 spring:
-  application:
-    name: franchise-api
-
+  # MongoDB configuration
   data:
     mongodb:
       uri: mongodb://localhost:27017/franchise_db
+      auto-index-creation: true
 
-  # Configuración para continuar sin MongoDB si no está disponible
-  autoconfigure:
-    exclude: []
+  # Name of the application
+  application:
+    name: franchise-api
 
+# Port Server
+server:
+  port: 8080
+
+# Actuator (monitoring)
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
   endpoint:
     health:
       show-details: always
 
+# Logs
 logging:
   level:
-    com.franchise: INFO
-    org.springframework.data.mongodb: WARN
-    root: WARN
+    com.franchise: DEBUG
+    org.springframework.data.mongodb: DEBUG
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

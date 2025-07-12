@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://admin:WildcoX980@localhost:27017
+      uri: mongodb://mongodb:27017/franchise_db
 
 logging:
   level:
