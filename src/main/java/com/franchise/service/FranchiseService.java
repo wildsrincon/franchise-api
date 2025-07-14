@@ -161,13 +161,13 @@ public class FranchiseService {
                     if (branch == null) {
                         return Mono.error(new IllegalArgumentException("Branch not found with id: " + branchId));
                     }
-
+    
                     // Generar ID único para el producto si no tiene
                     if (product.getId() == null || product.getId().isEmpty()) {
                         product.setId(UUID.randomUUID().toString());
                     }
+                    
                     branch.addProduct(product);
-
                     return franchiseRepository.save(franchise);
                 });
     }
