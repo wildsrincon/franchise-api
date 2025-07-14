@@ -174,6 +174,7 @@ public class FranchiseController {
 
         @DeleteMapping("/{franchiseId}/branches/{branchId}/products/{productId}")
         @Operation(summary = "🗑️ Eliminar producto de una sucursal", description = "Elimina permanentemente un producto de una sucursal")
+        @Tag(name = "Products")
         public Mono<ResponseEntity<ApiResponseDTO<Franchise>>> removeProduct(
                         @PathVariable String franchiseId,
                         @PathVariable String branchId,
