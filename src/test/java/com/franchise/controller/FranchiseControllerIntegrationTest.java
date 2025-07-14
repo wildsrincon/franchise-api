@@ -295,7 +295,7 @@ class FranchiseControllerIntegrationTest {
         franchiseRepository.save(franchise1).block();
         franchiseRepository.save(franchise2).block();
 
-        // Test 1: Buscar por nombre
+        // Test 1: Search for name
         webTestClient.get()
                 .uri("/api/franchises/search?name=Alpha")
                 .exchange()
@@ -303,28 +303,28 @@ class FranchiseControllerIntegrationTest {
                 .expectBodyList(Franchise.class)
                 .hasSize(1);
 
-        // Test 2: Buscar por mínimo de sucursales
+        // Test 2: Search by minimum number of branches
         webTestClient.get()
                 .uri("/api/franchises/search?minBranches=2")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Franchise.class)
-                .hasSize(1); // Solo franchise2 tiene 2 sucursales
+                .hasSize(1);
 
-        // Test 3: Buscar por mínimo de productos
+        // Test 3: Search by minimum number of products
         webTestClient.get()
                 .uri("/api/franchises/search?minProducts=2")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBodyList(Franchise.class)
-                .hasSize(1); // Solo franchise2 tiene 3 productos
+                .hasSize(1);
 
         System.out.println("✅ Endpoints de búsqueda y filtrado funcionando");
     }
 
     @Test
     void testDeleteOperations() {
-        // Crear estructura para probar eliminaciones
+        // Create structure for testing deletions
         Franchise franchise = new Franchise("Delete Test Franchise");
         Branch branch = new Branch("Delete Test Branch");
         branch.setId("delete-branch");
@@ -336,7 +336,7 @@ class FranchiseControllerIntegrationTest {
 
         Franchise saved = franchiseRepository.save(franchise).block();
 
-        // Test 1: Eliminar producto
+        // Test 1: Delete product
         webTestClient.delete()
                 .uri("/api/franchises/{franchiseId}/branches/{branchId}/products/{productId}",
                         saved.getId(), "delete-branch", "delete-product")
@@ -346,7 +346,7 @@ class FranchiseControllerIntegrationTest {
                 .jsonPath("$.success").isEqualTo(true)
                 .jsonPath("$.data.branches[0].products").isEmpty();
 
-        // Test 2: Eliminar sucursal
+        // Test 2: Delete branches
         webTestClient.delete()
                 .uri("/api/franchises/{franchiseId}/branches/{branchId}",
                         saved.getId(), "delete-branch")
@@ -356,7 +356,7 @@ class FranchiseControllerIntegrationTest {
                 .jsonPath("$.success").isEqualTo(true)
                 .jsonPath("$.data.branches").isEmpty();
 
-        // Test 3: Eliminar franquicia
+        // Test 3: Delete franchise
         webTestClient.delete()
                 .uri("/api/franchises/{id}", saved.getId())
                 .exchange()
@@ -364,7 +364,7 @@ class FranchiseControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$.success").isEqualTo(true);
 
-        // Verificar que la franquicia fue eliminada
+        // Verify that the franchise was eliminated
         webTestClient.get()
                 .uri("/api/franchises/{id}", saved.getId())
                 .exchange()
@@ -375,13 +375,13 @@ class FranchiseControllerIntegrationTest {
 
     @Test
     void testErrorHandling() {
-        // Test 1: Buscar franquicia inexistente
+        // Test 1: Search for non-existent franchise
         webTestClient.get()
                 .uri("/api/franchises/nonexistent-id")
                 .exchange()
                 .expectStatus().isNotFound();
 
-        // Test 2: Agregar sucursal a franquicia inexistente
+        // Test 2: Add branch to non-existent franchise
         Branch branch = new Branch("Test Branch");
 
         webTestClient.post()
@@ -393,7 +393,7 @@ class FranchiseControllerIntegrationTest {
                 .expectBody()
                 .jsonPath("$.success").isEqualTo(false);
 
-        // Test 3: Crear franquicia duplicada
+        // Test 3: Create duplicate franchise
         Franchise franchise = new Franchise("Duplicate Test");
         franchiseRepository.save(franchise).block();
 

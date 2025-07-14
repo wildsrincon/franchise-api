@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   mongodb:
     image: mongo:6.0
@@ -17,8 +18,9 @@ services:
     depends_on:
       - mongodb
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_CONFIG_ADDITIONAL_LOCATION: application-docker.yaml
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CONFIG_ADDITIONAL_LOCATION=application-docker.yaml
+      - MONGODB_URI=${MONGODB_URI}
     restart: unless-stopped
 
 volumes:

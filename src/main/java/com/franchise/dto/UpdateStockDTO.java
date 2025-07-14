@@ -8,7 +8,7 @@ public class UpdateStockDTO {
     @Min(value = 0, message = "Stock cannot be negative")
     private Integer stock;
 
-    // Constructores
+    // Constructors
     public UpdateStockDTO() {}
 
     public UpdateStockDTO(Integer stock) {

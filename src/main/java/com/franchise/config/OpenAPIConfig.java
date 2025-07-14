@@ -21,7 +21,7 @@ public class OpenAPIConfig {
                         .version("1.0.0")
                         .contact(new Contact()
                                 .name("Franchise API Team")
-                                .email("franchise@example.com")))
+                                .email("wildsrincon.developer@gmail.com")))
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Servidor de Desarrollo")
                 ));

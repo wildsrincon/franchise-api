@@ -162,7 +162,7 @@ public class FranchiseService {
                         return Mono.error(new IllegalArgumentException("Branch not found with id: " + branchId));
                     }
     
-                    // Generar ID único para el producto si no tiene
+                    // Generate a unique ID for the product if it does not have one
                     if (product.getId() == null || product.getId().isEmpty()) {
                         product.setId(UUID.randomUUID().toString());
                     }

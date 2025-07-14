@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://mongodb:27017/franchise_db
+      uri: ${MONGODB_URI}
 
 logging:
   level:

@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import java.time.Duration;
 import java.util.List;
 
 @SpringBootTest
@@ -142,20 +141,20 @@ class FranchiseServiceReactiveTest {
                     return franchiseService.addProduct(withBranch.getId(), branchId, product);
                 })
                 .flatMap(withProduct -> {
-                    // Actualizar nombre de franquicia
+                    // Update Franchise Name
                     UpdateNameDTO nameUpdate = new UpdateNameDTO("Subway Renovado Reactivo");
                     return franchiseService.updateFranchiseName(withProduct.getId(), nameUpdate);
                 })
                 .flatMap(franchiseUpdated -> {
                     String branchId = franchiseUpdated.getBranches().get(0).getId();
-                    // Actualizar nombre de sucursal
+                    // Update Branch Name
                     UpdateNameDTO branchUpdate = new UpdateNameDTO("Subway Plaza Renovado");
                     return franchiseService.updateBranchName(franchiseUpdated.getId(), branchId, branchUpdate);
                 })
                 .flatMap(branchUpdated -> {
                     String branchId = branchUpdated.getBranches().get(0).getId();
                     String productId = branchUpdated.getBranches().get(0).getProducts().get(0).getId();
-                    // Actualizar stock
+                    // Update stock
                     UpdateStockDTO stockUpdate = new UpdateStockDTO(50);
                     return franchiseService.updateProductStock(branchUpdated.getId(), branchId, productId, stockUpdate);
                 });
@@ -182,7 +181,7 @@ class FranchiseServiceReactiveTest {
 
         Mono<FranchiseService.FranchiseStatsDTO> statsWorkflow = franchiseService.createFranchise(franchise)
                 .flatMap(saved -> {
-                    // Agregar múltiples sucursales y productos
+                    // Add Multiple Branches and Products
                     Branch branch1 = new Branch("Sucursal 1");
                     return franchiseService.addBranch(saved.getId(), branch1);
                 })
@@ -229,7 +228,7 @@ class FranchiseServiceReactiveTest {
         // Create a performance test for creating multiple franchises in parallel
         Mono<Long> performanceTest = Mono.fromCallable(() -> System.currentTimeMillis())
                 .flatMap(startTime -> {
-                    // Crear 5 franquicias en paralelo
+                    // Create 5 Franchises in Paralel
                     return Mono.when(
                             franchiseService.createFranchise(new Franchise("Perf Test 1")),
                             franchiseService.createFranchise(new Franchise("Perf Test 2")),
@@ -242,7 +241,7 @@ class FranchiseServiceReactiveTest {
         StepVerifier.create(performanceTest)
                 .expectNextMatches(duration -> {
                     System.out.println("✅ Test de performance reactiva completado en: " + duration + "ms");
-                    return duration < 5000; // Debe completarse en menos de 5 segundos
+                    return duration < 5000;
                 })
                 .verifyComplete();
 

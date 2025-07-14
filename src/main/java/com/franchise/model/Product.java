@@ -16,7 +16,7 @@ public class Product {
     @Min(value = 0, message = "Stock cannot be negative")
     private Integer stock;
 
-    // Constructores
+    // Constructors
     public Product() {}
 
     public Product(String name, Integer stock) {

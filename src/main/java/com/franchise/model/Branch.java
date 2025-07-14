@@ -17,7 +17,7 @@ public class Branch {
     @Valid
     private List<Product> products = new ArrayList<>();
 
-    // Constructores
+    // Constructors
     public Branch() {}
 
     public Branch(String name) {
@@ -37,7 +37,7 @@ public class Branch {
         this.products = products != null ? products : new ArrayList<>();
     }
 
-    // Métodos útiles
+    // Methods 
     public void addProduct(Product product) {
         if (this.products == null) {
             this.products = new ArrayList<>();

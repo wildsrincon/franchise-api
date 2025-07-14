@@ -21,7 +21,7 @@ public class Franchise {
     @Valid
     private List<Branch> branches = new ArrayList<>();
 
-    // Constructores
+    // Constructors
     public Franchise() {}
 
     public Franchise(String name) {
@@ -41,7 +41,7 @@ public class Franchise {
         this.branches = branches != null ? branches : new ArrayList<>();
     }
 
-    // Métodos útiles
+    // Methods
     public void addBranch(Branch branch) {
         if (this.branches == null) {
             this.branches = new ArrayList<>();

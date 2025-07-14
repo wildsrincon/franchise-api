@@ -21,7 +21,7 @@ class MongoConnectionTest {
 
     @Test
     void testMongoConnection() {
-        // Verificar que podemos conectarnos
+        // Verify MongoDB connection
         Mono<String> dbName = mongoTemplate.getMongoDatabase()
                 .map(db -> db.getName());
 
@@ -34,10 +34,10 @@ class MongoConnectionTest {
 
     @Test
     void testCreateAndFindFranchise() {
-        // Crear franquicia de prueba
+        // Create a franchise test
         Franchise franchise = new Franchise("Test Franchise - " + System.currentTimeMillis());
 
-        // Guardar y verificar
+        // Save and verify
         Mono<Franchise> savedFranchise = franchiseRepository.save(franchise)
                 .doOnNext(saved -> System.out.println("✅ Franquicia guardada: " + saved.getName()));
 
@@ -50,14 +50,14 @@ class MongoConnectionTest {
 
     @Test
     void testCompleteWorkflow() {
-        // Crear franquicia completa
+        // create New Franchise
         Franchise franchise = new Franchise("McDonald's Test");
 
-        // Crear sucursal
+        // Create Branch
         Branch branch = new Branch("Sucursal Centro");
         branch.setId("branch_1");
 
-        // Agregar productos
+        // Add Product
         Product product1 = new Product("Big Mac", 50);
         product1.setId("prod_1");
         Product product2 = new Product("Papas", 30);
@@ -67,7 +67,7 @@ class MongoConnectionTest {
         branch.addProduct(product2);
         franchise.addBranch(branch);
 
-        // Guardar, buscar y verificar
+        // Save, Search and Verify
         Mono<Franchise> workflow = franchiseRepository.save(franchise)
                 .flatMap(saved -> franchiseRepository.findById(saved.getId()))
                 .doOnNext(found -> {

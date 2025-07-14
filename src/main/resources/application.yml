@@ -2,7 +2,7 @@ spring:
   # MongoDB configuration
   data:
     mongodb:
-      uri: mongodb://admin:WildcoX980@localhost:27017/franchise_db?authSource=admin
+      uri: ${MONGODB_URI}
       auto-index-creation: true
 
   # Name of the application
