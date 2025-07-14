@@ -1,5 +1,13 @@
 package com.franchise.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.franchise.dto.ProductTopStockDTO;
 import com.franchise.dto.UpdateNameDTO;
 import com.franchise.dto.UpdateStockDTO;
@@ -7,15 +15,9 @@ import com.franchise.model.Branch;
 import com.franchise.model.Franchise;
 import com.franchise.model.Product;
 import com.franchise.repository.FranchiseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class FranchiseService {
@@ -26,6 +28,21 @@ public class FranchiseService {
     // ==================== OPERACIONES DE FRANQUICIA ====================
 
     public Mono<Franchise> createFranchise(Franchise franchise) {
+        // Asignar IDs a sucursales y productos si no tienen
+        if (franchise.getBranches() != null) {
+            for (Branch branch : franchise.getBranches()) {
+                if (branch.getId() == null || branch.getId().isEmpty()) {
+                    branch.setId(UUID.randomUUID().toString());
+                }
+                if (branch.getProducts() != null) {
+                    for (Product product : branch.getProducts()) {
+                        if (product.getId() == null || product.getId().isEmpty()) {
+                            product.setId(UUID.randomUUID().toString());
+                        }
+                    }
+                }
+            }
+        }
         return franchiseRepository.existsByName(franchise.getName())
                 .flatMap(exists -> {
                     if (exists) {

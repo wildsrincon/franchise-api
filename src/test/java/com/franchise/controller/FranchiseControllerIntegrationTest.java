@@ -1,9 +1,5 @@
 package com.franchise.controller;
 
-import com.franchise.model.Branch;
-import com.franchise.model.Franchise;
-import com.franchise.model.Product;
-import com.franchise.repository.FranchiseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +7,11 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import com.franchise.model.Branch;
+import com.franchise.model.Franchise;
+import com.franchise.model.Product;
+import com.franchise.repository.FranchiseRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
