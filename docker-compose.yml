@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: franchise_db
+    volumes:
+      - mongo_data:/data/db
+
+  franchise-api:
+    build: .
+    container_name: franchise-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CONFIG_ADDITIONAL_LOCATION: application-docker.yaml
+    restart: unless-stopped
+
+volumes:
+  mongo_data: 
