@@ -80,7 +80,8 @@ public class FranchiseService {
                     return franchiseRepository.existsByName(updateNameDTO.getName())
                             .flatMap(exists -> {
                                 if (exists) {
-                                    return Mono.error(new IllegalArgumentException("Franchise with this name already exists"));
+                                    return Mono.error(
+                                            new IllegalArgumentException("Franchise with this name already exists"));
                                 }
                                 franchise.setName(updateNameDTO.getName());
                                 return franchiseRepository.save(franchise);
@@ -106,6 +107,19 @@ public class FranchiseService {
                 .flatMap(franchise -> {
                     // Generar ID único para la sucursal
                     branch.setId(UUID.randomUUID().toString());
+
+                    // Si la lista de productos viene como null, inicializarla
+                    if (branch.getProducts() == null) {
+                        branch.setProducts(new ArrayList<>());
+                    } else {
+                        // Asignar IDs a todos los productos que no tengan ID
+                        for (Product product : branch.getProducts()) {
+                            if (product.getId() == null || product.getId().isEmpty()) {
+                                product.setId(UUID.randomUUID().toString());
+                            }
+                        }
+                    }
+
                     franchise.addBranch(branch);
                     return franchiseRepository.save(franchise);
                 });
@@ -148,8 +162,10 @@ public class FranchiseService {
                         return Mono.error(new IllegalArgumentException("Branch not found with id: " + branchId));
                     }
 
-                    // Generar ID único para el producto
-                    product.setId(UUID.randomUUID().toString());
+                    // Generar ID único para el producto si no tiene
+                    if (product.getId() == null || product.getId().isEmpty()) {
+                        product.setId(UUID.randomUUID().toString());
+                    }
                     branch.addProduct(product);
 
                     return franchiseRepository.save(franchise);
@@ -174,7 +190,8 @@ public class FranchiseService {
                 });
     }
 
-    public Mono<Franchise> updateProductStock(String franchiseId, String branchId, String productId, UpdateStockDTO updateStockDTO) {
+    public Mono<Franchise> updateProductStock(String franchiseId, String branchId, String productId,
+            UpdateStockDTO updateStockDTO) {
         return franchiseRepository.findById(franchiseId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Franchise not found with id: " + franchiseId)))
                 .flatMap(franchise -> {
@@ -193,7 +210,8 @@ public class FranchiseService {
                 });
     }
 
-    public Mono<Franchise> updateProductName(String franchiseId, String branchId, String productId, UpdateNameDTO updateNameDTO) {
+    public Mono<Franchise> updateProductName(String franchiseId, String branchId, String productId,
+            UpdateNameDTO updateNameDTO) {
         return franchiseRepository.findById(franchiseId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Franchise not found with id: " + franchiseId)))
                 .flatMap(franchise -> {
@@ -230,8 +248,7 @@ public class FranchiseService {
                                 topProducts.add(new ProductTopStockDTO(
                                         topProduct.getName(),
                                         branch.getName(),
-                                        topProduct.getStock()
-                                ));
+                                        topProduct.getStock()));
                             }
                         }
                     }
@@ -278,8 +295,7 @@ public class FranchiseService {
                             franchise.getName(),
                             totalBranches,
                             totalProducts,
-                            totalStock
-                    );
+                            totalStock);
                 });
     }
 
@@ -298,11 +314,20 @@ public class FranchiseService {
         }
 
         // Getters
-        public String getFranchiseName() { return franchiseName; }
-        public int getTotalBranches() { return totalBranches; }
-        public int getTotalProducts() { return totalProducts; }
-        public int getTotalStock() { return totalStock; }
+        public String getFranchiseName() {
+            return franchiseName;
+        }
+
+        public int getTotalBranches() {
+            return totalBranches;
+        }
+
+        public int getTotalProducts() {
+            return totalProducts;
+        }
+
+        public int getTotalStock() {
+            return totalStock;
+        }
     }
 }
-
-
